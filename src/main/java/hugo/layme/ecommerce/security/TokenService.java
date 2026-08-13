@@ -2,7 +2,7 @@ package hugo.layme.ecommerce.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import hugo.layme.ecommerce.dto.AuthResponse;
+import hugo.layme.ecommerce.dto.authentication.AuthResponse;
 import hugo.layme.ecommerce.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

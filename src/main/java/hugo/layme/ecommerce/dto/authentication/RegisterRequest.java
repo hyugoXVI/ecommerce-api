@@ -1,4 +1,4 @@
-package hugo.layme.ecommerce.dto;
+package hugo.layme.ecommerce.dto.authentication;
 
 public record RegisterRequest(String name,
                               String email,

@@ -1,17 +1,9 @@
 package hugo.layme.ecommerce.controller;
 
-import hugo.layme.ecommerce.dto.AuthResponse;
-import hugo.layme.ecommerce.dto.LoginRequest;
-import hugo.layme.ecommerce.dto.RegisterRequest;
-import hugo.layme.ecommerce.entity.User;
-import hugo.layme.ecommerce.repository.UserRepository;
-import hugo.layme.ecommerce.security.UserDetailsImpl;
-import hugo.layme.ecommerce.security.UserDetailsServiceImpl;
+import hugo.layme.ecommerce.dto.authentication.AuthResponse;
+import hugo.layme.ecommerce.dto.authentication.LoginRequest;
+import hugo.layme.ecommerce.dto.authentication.RegisterRequest;
 import hugo.layme.ecommerce.service.AuthService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
