@@ -1,3 +1,13 @@
 spring:
-  application:
-    name: ecommerce
+  security:
+    secret: ${SPRING.SECURITY.SECRET}
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: ${DB.USERNAME}
+    password: ${DB.PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
