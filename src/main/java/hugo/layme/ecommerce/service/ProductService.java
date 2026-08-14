@@ -32,6 +32,16 @@ public class ProductService {
         return productToResponse(savedProduct);
     }
 
+    public void activateProduct(Long id){
+        productRepository.findByIdAndActivateFalse(id)
+                .ifPresentOrElse(p -> {
+                    p.activate();
+                    productRepository.save(p);
+                }, () -> {
+                    throw new RuntimeException("Product doesn't exist.");
+                });
+    }
+
     public void deactivateProduct(Long id){
 
         productRepository.findByIdAndActiveTrue(id)
