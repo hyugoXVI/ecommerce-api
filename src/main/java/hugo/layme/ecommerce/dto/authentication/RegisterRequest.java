@@ -1,6 +1,9 @@
 package hugo.layme.ecommerce.dto.authentication;
 
-public record RegisterRequest(String name,
-                              String email,
-                              String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record RegisterRequest(@NotBlank String name,
+                              @Email @NotBlank String email,
+                              @NotBlank String password) {
 }
