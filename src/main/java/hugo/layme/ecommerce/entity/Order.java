@@ -69,6 +69,10 @@ public class Order {
         return status;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
     public void addItem(OrderItem item){
 
         if (item == null){
