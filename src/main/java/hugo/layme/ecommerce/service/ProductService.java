@@ -33,7 +33,7 @@ public class ProductService {
     }
 
     public void activateProduct(Long id){
-        productRepository.findByIdAndActivateFalse(id)
+        productRepository.findByIdAndActiveFalse(id)
                 .ifPresentOrElse(p -> {
                     p.activate();
                     productRepository.save(p);
