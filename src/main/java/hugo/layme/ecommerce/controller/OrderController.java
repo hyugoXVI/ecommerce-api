@@ -3,6 +3,7 @@ package hugo.layme.ecommerce.controller;
 import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
 import hugo.layme.ecommerce.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class OrderController {
     public List<OrderResponse> getOrders(){
         return orderService.getOrders();
     }
+    
     @PostMapping
-    public OrderResponse createOrder(@RequestBody OrderRequest request){
+    public OrderResponse createOrder(@RequestBody @Valid OrderRequest request){
         return orderService.createOrder(request);
     }
 
