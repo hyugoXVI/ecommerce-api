@@ -3,6 +3,7 @@ package hugo.layme.ecommerce.service;
 import hugo.layme.ecommerce.dto.product.ProductRequest;
 import hugo.layme.ecommerce.dto.product.ProductResponse;
 import hugo.layme.ecommerce.entity.Product;
+import hugo.layme.ecommerce.exception.ResourceNotFoundException;
 import hugo.layme.ecommerce.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class ProductService {
                     p.activate();
                     productRepository.save(p);
                 }, () -> {
-                    throw new RuntimeException("Product doesn't exist.");
+                    throw new ResourceNotFoundException("Product doesn't exist.");
                 });
     }
 
@@ -49,7 +50,7 @@ public class ProductService {
                     p.deactivate();
                     productRepository.save(p);
                 }, () -> {
-                    throw new RuntimeException("Product doesn't exist.");
+                    throw new ResourceNotFoundException("Product doesn't exist.");
                 });
     }
 
@@ -63,7 +64,7 @@ public class ProductService {
     public ProductResponse getActiveProductById(Long id){
 
         Product product = productRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new RuntimeException("Product doesn't exist!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist!"));
 
         return productToResponse(product);
     }

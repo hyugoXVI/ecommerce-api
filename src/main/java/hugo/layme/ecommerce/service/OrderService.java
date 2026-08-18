@@ -5,6 +5,7 @@ import hugo.layme.ecommerce.dto.order.OrderItemResponse;
 import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
 import hugo.layme.ecommerce.entity.*;
+import hugo.layme.ecommerce.exception.ResourceNotFoundException;
 import hugo.layme.ecommerce.repository.OrderRepository;
 import hugo.layme.ecommerce.repository.ProductRepository;
 import hugo.layme.ecommerce.security.UserDetailsImpl;
@@ -48,7 +49,7 @@ public class OrderService {
 
         itemsList.forEach(item -> {
             Product product = productRepository.findByIdAndActiveTrue(item.productId())
-                    .orElseThrow(() -> new RuntimeException("Product not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Product not found."));
                     product.decreaseStock(item.quantity());
 
                     order.addItem(new OrderItem(product, order, product.getPrice() ,item.quantity()));
@@ -64,7 +65,7 @@ public class OrderService {
         User user = getAuthenticatedUser();
 
         Order order = orderRepository.findByIdAndUser(id, user)
-                .orElseThrow(() -> new RuntimeException("Order not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
 
         order.pay();
     }
@@ -75,7 +76,7 @@ public class OrderService {
         User user = getAuthenticatedUser();
 
         Order order = orderRepository.findByIdAndUser(id, user)
-                .orElseThrow(() -> new RuntimeException("Order doesn't exist."));
+                .orElseThrow(() -> new ResourceNotFoundException("Order doesn't exist."));
 
         order.cancel();
     }

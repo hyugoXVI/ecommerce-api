@@ -1,5 +1,6 @@
 package hugo.layme.ecommerce.entity;
 
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -73,7 +74,7 @@ public class Product {
 
     public void increaseStock(int quantity){
         if (quantity <= 0){
-            throw new RuntimeException("Quantity must be positive.");
+            throw new BusinessRuleException("Quantity must be positive.");
         }
         this.stock += quantity;
     }
@@ -81,10 +82,10 @@ public class Product {
     public void decreaseStock(int quantity){
 
         if (quantity <= 0){
-            throw new RuntimeException("Quantity must be positive.");
+            throw new BusinessRuleException("Quantity must be positive.");
         }
         if (quantity > stock){
-            throw new RuntimeException("Quantity must be lower than product's stock");
+            throw new BusinessRuleException("Quantity must be lower than product's stock");
         }
 
         this.stock -= quantity;

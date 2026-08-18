@@ -1,5 +1,6 @@
 package hugo.layme.ecommerce.entity;
 
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -87,11 +88,11 @@ public class Order {
     public void pay(){
 
         if (this.status == OrderStatus.CANCELLED){
-            throw new RuntimeException("This order is cancelled and cannot be paid.");
+            throw new BusinessRuleException("This order is cancelled and cannot be paid.");
         }
 
         if (this.status == OrderStatus.PAID){
-            throw new RuntimeException("This order is already paid.");
+            throw new BusinessRuleException("This order is already paid.");
         }
 
         this.status = OrderStatus.PAID;
@@ -99,10 +100,10 @@ public class Order {
 
     public void cancel(){
         if (this.status == OrderStatus.PAID){
-            throw new RuntimeException("This order is already paid and cannot be cancelled.");
+            throw new BusinessRuleException("This order is already paid and cannot be cancelled.");
         }
         if (this.status == OrderStatus.CANCELLED){
-            throw new RuntimeException("This order is already cancelled.");
+            throw new BusinessRuleException("This order is already cancelled.");
         }
 
         this.status = OrderStatus.CANCELLED;

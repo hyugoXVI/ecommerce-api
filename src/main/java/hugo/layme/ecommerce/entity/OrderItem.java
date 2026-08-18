@@ -1,5 +1,6 @@
 package hugo.layme.ecommerce.entity;
 
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -35,7 +36,7 @@ public class OrderItem {
     public OrderItem(Product product, Order order,  BigDecimal unitPrice, int quantity) {
 
         if (quantity <= 0){
-            throw new RuntimeException("Quantity must be 1 or higher!");
+            throw new BusinessRuleException("Quantity must be 1 or higher!");
         }
 
         if (product == null){
@@ -47,7 +48,7 @@ public class OrderItem {
         }
 
         if (unitPrice == null || unitPrice.compareTo(BigDecimal.ZERO) <= 0){
-            throw new RuntimeException("Unit price must be positive!");
+            throw new BusinessRuleException("Unit price must be positive!");
         }
 
         this.product = product;
