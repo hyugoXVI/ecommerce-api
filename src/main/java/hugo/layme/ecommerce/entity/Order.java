@@ -90,6 +90,10 @@ public class Order {
             throw new RuntimeException("This order is cancelled and cannot be paid.");
         }
 
+        if (this.status == OrderStatus.PAID){
+            throw new RuntimeException("This order is already paid.");
+        }
+
         this.status = OrderStatus.PAID;
     }
 
@@ -97,6 +101,10 @@ public class Order {
         if (this.status == OrderStatus.PAID){
             throw new RuntimeException("This order is already paid and cannot be cancelled.");
         }
+        if (this.status == OrderStatus.CANCELLED){
+            throw new RuntimeException("This order is already cancelled.");
+        }
+
         this.status = OrderStatus.CANCELLED;
     }
 

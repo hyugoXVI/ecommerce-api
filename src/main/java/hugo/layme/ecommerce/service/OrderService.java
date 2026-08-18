@@ -4,10 +4,7 @@ import hugo.layme.ecommerce.dto.order.OrderItemRequest;
 import hugo.layme.ecommerce.dto.order.OrderItemResponse;
 import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
-import hugo.layme.ecommerce.entity.Order;
-import hugo.layme.ecommerce.entity.OrderItem;
-import hugo.layme.ecommerce.entity.Product;
-import hugo.layme.ecommerce.entity.User;
+import hugo.layme.ecommerce.entity.*;
 import hugo.layme.ecommerce.repository.OrderRepository;
 import hugo.layme.ecommerce.repository.ProductRepository;
 import hugo.layme.ecommerce.security.UserDetailsImpl;
@@ -54,13 +51,34 @@ public class OrderService {
                     .orElseThrow(() -> new RuntimeException("Product not found."));
                     product.decreaseStock(item.quantity());
 
-                    order.addItem(new OrderItem(product, order, product.getPrice(),item.quantity()));
+                    order.addItem(new OrderItem(product, order, product.getPrice() ,item.quantity()));
         });
 
         orderRepository.save(order);
         return orderToResponse(order);
     }
 
+    @Transactional
+    public void payOrder(Long id){
+
+        User user = getAuthenticatedUser();
+
+        Order order = orderRepository.findByIdAndUser(id, user)
+                .orElseThrow(() -> new RuntimeException("Order not found."));
+
+        order.pay();
+    }
+
+    @Transactional
+    public void cancelOrder(Long id){
+
+        User user = getAuthenticatedUser();
+
+        Order order = orderRepository.findByIdAndUser(id, user)
+                .orElseThrow(() -> new RuntimeException("Order doesn't exist."));
+
+        order.cancel();
+    }
     private User getAuthenticatedUser(){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
