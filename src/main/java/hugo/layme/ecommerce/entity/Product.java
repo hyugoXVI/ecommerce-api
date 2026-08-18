@@ -25,6 +25,9 @@ public class Product {
 
     private boolean active;
 
+    @Version
+    private Long version;
+
     public Product() {
     }
 
