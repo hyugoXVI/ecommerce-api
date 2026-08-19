@@ -4,6 +4,7 @@ import hugo.layme.ecommerce.dto.authentication.AuthResponse;
 import hugo.layme.ecommerce.dto.authentication.LoginRequest;
 import hugo.layme.ecommerce.dto.authentication.RegisterRequest;
 import hugo.layme.ecommerce.entity.User;
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import hugo.layme.ecommerce.repository.UserRepository;
 import hugo.layme.ecommerce.security.TokenService;
 import hugo.layme.ecommerce.security.UserDetailsImpl;
@@ -33,7 +34,7 @@ public class AuthService {
 
         userRepository.findByEmail(request.email())
                 .ifPresentOrElse(u -> {
-                    throw new RuntimeException("Provided e-mail has already taken");
+                    throw new BusinessRuleException("Provided e-mail has already taken");
                 }, () -> {
                     userRepository.save(new User(
                             request.name(), request.email(), passwordEncoder.encode(request.password())

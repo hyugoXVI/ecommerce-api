@@ -3,6 +3,7 @@ package hugo.layme.ecommerce.service;
 import hugo.layme.ecommerce.dto.product.ProductRequest;
 import hugo.layme.ecommerce.dto.product.ProductResponse;
 import hugo.layme.ecommerce.entity.Product;
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import hugo.layme.ecommerce.exception.ResourceNotFoundException;
 import hugo.layme.ecommerce.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ProductService {
         String name = request.name().trim();
 
         productRepository.findByNameIgnoreCase(name).ifPresent(p -> {
-            throw new RuntimeException("The product's name already exists in database.");
+            throw new BusinessRuleException("The product's name already exists in database.");
         });
 
         Product savedProduct = new Product(name, request.description(),
