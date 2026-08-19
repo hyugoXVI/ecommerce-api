@@ -4,6 +4,7 @@ import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
 import hugo.layme.ecommerce.service.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,22 @@ public class OrderController {
     @PostMapping
     public OrderResponse createOrder(@RequestBody @Valid OrderRequest request){
         return orderService.createOrder(request);
+    }
+
+    @PatchMapping("/{id}/pay")
+    ResponseEntity<Void> payOrder(@PathVariable Long id){
+
+        orderService.payOrder(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/cancel")
+    ResponseEntity<Void> cancelOrder(@PathVariable Long id){
+
+        orderService.cancelOrder(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

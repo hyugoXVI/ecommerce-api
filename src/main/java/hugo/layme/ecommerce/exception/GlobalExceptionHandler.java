@@ -1,5 +1,6 @@
 package hugo.layme.ecommerce.exception;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import hugo.layme.ecommerce.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -71,7 +72,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(OptimisticLockingFailureException.class)
-    public ResponseEntity<ErrorResponse> handleOptimisticLookingFailure(OptimisticLockingFailureException ex,
+    public ResponseEntity<ErrorResponse> handleOptimisticLockingFailure(OptimisticLockingFailureException ex,
                                                                         HttpServletRequest request){
 
         HttpStatus status = HttpStatus.CONFLICT;
