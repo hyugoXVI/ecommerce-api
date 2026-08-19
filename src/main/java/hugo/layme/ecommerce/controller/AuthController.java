@@ -4,6 +4,9 @@ import hugo.layme.ecommerce.dto.authentication.AuthResponse;
 import hugo.layme.ecommerce.dto.authentication.LoginRequest;
 import hugo.layme.ecommerce.dto.authentication.RegisterRequest;
 import hugo.layme.ecommerce.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +23,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest request) {
 
         authService.register(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request){
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request){
 
-        return authService.login(request);
+        return ResponseEntity.ok(authService.login(request));
     }
 }

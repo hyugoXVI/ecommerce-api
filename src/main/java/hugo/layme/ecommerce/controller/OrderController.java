@@ -4,6 +4,7 @@ import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
 import hugo.layme.ecommerce.service.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,17 +21,19 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderResponse> getOrders(){
-        return orderService.getOrders();
+    public ResponseEntity<List<OrderResponse>> getOrders(){
+
+        return ResponseEntity.ok(orderService.getOrders());
     }
     
     @PostMapping
-    public OrderResponse createOrder(@RequestBody @Valid OrderRequest request){
-        return orderService.createOrder(request);
+    public ResponseEntity<OrderResponse> createOrder(@RequestBody @Valid OrderRequest request){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(request));
     }
 
     @PatchMapping("/{id}/pay")
-    ResponseEntity<Void> payOrder(@PathVariable Long id){
+    public ResponseEntity<Void> payOrder(@PathVariable Long id){
 
         orderService.payOrder(id);
 
@@ -38,7 +41,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}/cancel")
-    ResponseEntity<Void> cancelOrder(@PathVariable Long id){
+    public ResponseEntity<Void> cancelOrder(@PathVariable Long id){
 
         orderService.cancelOrder(id);
 

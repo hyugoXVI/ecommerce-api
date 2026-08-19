@@ -2,6 +2,7 @@ package hugo.layme.ecommerce.controller;
 
 import hugo.layme.ecommerce.dto.product.ProductResponse;
 import hugo.layme.ecommerce.service.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +21,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> getProducts(){
-        return productService.getActiveProducts();
+    public ResponseEntity<List<ProductResponse>> getProducts(){
+
+        return ResponseEntity.ok(productService.getActiveProducts());
     }
 
     @GetMapping("/{id}")
-    public ProductResponse getProduct(@PathVariable Long id){
-        return productService.getActiveProductById(id);
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id){
+
+        return ResponseEntity.ok(productService.getActiveProductById(id));
     }
 }
 
