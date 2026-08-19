@@ -5,6 +5,7 @@ import hugo.layme.ecommerce.dto.order.OrderItemResponse;
 import hugo.layme.ecommerce.dto.order.OrderRequest;
 import hugo.layme.ecommerce.dto.order.OrderResponse;
 import hugo.layme.ecommerce.entity.*;
+import hugo.layme.ecommerce.exception.BusinessRuleException;
 import hugo.layme.ecommerce.exception.ResourceNotFoundException;
 import hugo.layme.ecommerce.repository.OrderRepository;
 import hugo.layme.ecommerce.repository.ProductRepository;
@@ -27,6 +28,7 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getOrders(){
         User user = getAuthenticatedUser();
 
@@ -43,16 +45,11 @@ public class OrderService {
 
         List<OrderItemRequest> itemsList = request.items();
 
-        if (itemsList == null || itemsList.isEmpty()){
-            throw new RuntimeException("Items cannot be null/empty!");
-        }
-
         itemsList.forEach(item -> {
             Product product = productRepository.findByIdAndActiveTrue(item.productId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product not found."));
-                    product.decreaseStock(item.quantity());
 
-                    order.addItem(new OrderItem(product, order, product.getPrice() ,item.quantity()));
+                    order.addItem(new OrderItem(product, order, product.getPrice(), item.quantity()));
         });
 
         orderRepository.save(order);
@@ -67,7 +64,15 @@ public class OrderService {
         Order order = orderRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
 
+
         order.pay();
+
+        order.getOrderItems().forEach(item -> {
+            if (!item.getProduct().isActive()){
+                throw new BusinessRuleException("Product is inactive.");
+            }
+            item.getProduct().decreaseStock(item.getQuantity());
+        });
     }
 
     @Transactional
