@@ -47,7 +47,7 @@ public class OrderService {
 
         itemsList.forEach(item -> {
             Product product = productRepository.findByIdAndActiveTrue(item.productId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Product not found."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Product (ID:"+ item.productId() +") not found."));
 
                     order.addItem(new OrderItem(product, order, product.getPrice(), item.quantity()));
         });
