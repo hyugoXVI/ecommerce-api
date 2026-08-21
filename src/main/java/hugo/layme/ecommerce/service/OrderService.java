@@ -64,7 +64,6 @@ public class OrderService {
         Order order = orderRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found."));
 
-
         order.pay();
 
         order.getOrderItems().forEach(item -> {
